@@ -22,19 +22,16 @@ public class HDriveCircle extends OpMode {
         center.setPower(0);
     }
 
-
     @Override
     public void init(){
-        left = hardwareMap.get(DcMotor.class, "left");
-        right = hardwareMap.get(DcMotor.class,"right");
+        left = hardwareMap.get(DcMotor.class, "leftMotor");
+        right = hardwareMap.get(DcMotor.class,"rightMotor");
         center = hardwareMap.get(DcMotor.class, "center");
 
         right.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
     }
-
-
 
     @Override
     public void loop() {
