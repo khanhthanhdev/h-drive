@@ -42,7 +42,7 @@ public class HDriveTest extends OpMode {
 
         if (gamepad1.left_stick_y > 0.05){
             left.setPower(gamepad1.left_stick_y);
-        } else if (gamepad1.right_stick_y < -0.05){
+        } else if (gamepad1.left_stick_y < -0.05){
             left.setPower(gamepad1.left_stick_y);
         } else if (gamepad1.left_stick_y <= 0.05 || gamepad1.left_stick_y >= -0.05){
             left.setPower(0);
@@ -52,15 +52,17 @@ public class HDriveTest extends OpMode {
             right.setPower(gamepad1.right_stick_y);
         } else if (gamepad1.right_stick_y < -0.05){
             right.setPower(gamepad1.right_stick_y);
-        } else if (gamepad1.right_stick_y < 0.1|| gamepad1.right_stick_y > -0.1){
+        } else if (gamepad1.right_stick_y <= 0.1|| gamepad1.right_stick_y >= -0.1){
             right.setPower(0);
         }
 
         if (gamepad1.right_trigger > 0.05){
-            center.setPower(gamepad1.right_trigger);
+            center.setPower(-gamepad1.right_trigger);
         } else if (gamepad1.left_trigger > 0.05){
             center.setPower(gamepad1.left_trigger);
-        } else if (gamepad1.right_trigger > 0.05 && gamepad1.left_trigger > 0.05){
+        } else if (gamepad1.right_trigger <= 0.05 || gamepad1.left_trigger >= -0.05){
+            center.setPower(0);
+        } else if (gamepad1.right_trigger != 0 || gamepad1.left_trigger != -0) {
             center.setPower(0);
         }
 

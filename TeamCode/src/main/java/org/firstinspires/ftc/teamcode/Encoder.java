@@ -22,88 +22,43 @@ public class Encoder extends LinearOpMode {
     static final double DRIVE_COUNTS_PER_IN = DRIVE_COUNTS_PER_MM * 25.4;
 
     //Create elapsed time variable and an instance of elapsed time
-    private ElapsedTime     runtime = new ElapsedTime();
 
     // Drive function with 3 parameters
-    private void drive(double power, double leftInches, double rightInches) {
-        int rightTarget;
-        int leftTarget;
-
-        if (opModeIsActive()) {
-            // Create target positions
-            rightTarget = RightDrive.getCurrentPosition() + (int)(rightInches * DRIVE_COUNTS_PER_IN);
-            leftTarget = LeftDrive.getCurrentPosition() + (int)(leftInches * DRIVE_COUNTS_PER_IN);
-
-            // set target position
-            LeftDrive.setTargetPosition(leftTarget);
-            RightDrive.setTargetPosition(rightTarget);
-
-            //switch to run to position mode
-            LeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            RightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            //run to position at the desiginated power
-            LeftDrive.setPower(power);
-            RightDrive.setPower(power);
-
-            // wait until both motors are no longer busy running to position
-            while (opModeIsActive() && (LeftDrive.isBusy() || RightDrive.isBusy())) {
-            }
-
-            // set motor power back to 0
-            LeftDrive.setPower(0);
-            RightDrive.setPower(0);
-        }
-    }
 
 
     @Override
     public void runOpMode() {
 
-        RightDrive = hardwareMap.get(DcMotor.class, "rightMotor");
+        LeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         LeftDrive = hardwareMap.get(DcMotor.class, "leftMotor");
-//        Arm = hardwareMap.get(DcMotor.class, "Arm");
-//        Intake = hardwareMap.get(DcMotor.class, "Intake");
+        RightDrive = hardwareMap.get(DcMotor.class, "rightMotor");
 
 
         LeftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        waitForStart();
-        if (opModeIsActive()) {
+        double rotationsNeeded = 18/DRIVE_COUNTS_PER_IN;
+        int encoderDrivingTarget = (int)(rotationsNeeded*28);
 
-            //segment 1
-            drive(0.7, 30, 15);
+        RightDrive.setTargetPosition(encoderDrivingTarget);
+        LeftDrive.setTargetPosition(encoderDrivingTarget);
 
-            runtime.reset(); // reset elapsed time timer
+        RightDrive.setPower(0.5);
+        LeftDrive.setPower(0.5);
+        
+        RightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            //segment 2 - lift arm, drive to shipping hub, outtake freight
-            while (opModeIsActive() && runtime.seconds() <= 7) {
-
-                //lift arm and hold
-//                Arm.setTargetPosition(120);
-//                Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                Arm.setPower(0.3);
-
-                //drive forward for 1 second
-                while (runtime.seconds() > 2 && runtime.seconds() <= 3) {
-                    drive(0.4, 4, 4);
-                }
-
-                //run intake
-//                while (runtime.seconds() > 4 && runtime.seconds() <= 7) {
-//                    Intake.setPower(-0.6);
-//                }
-//
-//                // turn off arm and intake
-//                Arm.setPower(0);
-//                Intake.setPower(0);
-
-                //segment 3 - reverse to get better angle
-                drive(0.7, -15, -30);
-
-                //segment 4 - drive into warehouse
-                drive(1, 90, 90);
-            }
+        while (RightDrive.isBusy() || LeftDrive.isBusy()){
+            telemetry.addData("Path", "Complete");
         }
+
+        RightDrive.setPower(0);
+        LeftDrive.setPower(0);
+
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
+
     }
 }
