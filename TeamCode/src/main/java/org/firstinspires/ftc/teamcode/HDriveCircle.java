@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp (name="HDriveTest")
-public class HDriveTest extends OpMode {
+@TeleOp (name="HDriveCircle")
+public class HDriveCircle extends OpMode {
 
     private DcMotor left;
     private DcMotor right;
@@ -74,6 +74,14 @@ public class HDriveTest extends OpMode {
             center.setPower(pivot);
         } else if (pivot < - 0.05){
             center.setPower(pivot);
+        }
+
+        if ((gamepad1.left_stick_y > 0.05 || gamepad1.right_stick_y > 0.05) && (gamepad1.right_stick_y < 0.1 && gamepad1.left_stick_y < 0.1)){
+            right.setPower(gamepad1.right_stick_y);
+            left.setPower(gamepad1.left_stick_y);
+        } else if ((gamepad1.left_stick_y < -0.05 || gamepad1.right_stick_y < - 0.05) && (gamepad1.right_stick_y >- 0.1 && gamepad1.left_stick_y >- 0.1)){
+            right.setPower(gamepad1.right_stick_y);
+            left.setPower(gamepad1.left_stick_y);
         }
 
 
