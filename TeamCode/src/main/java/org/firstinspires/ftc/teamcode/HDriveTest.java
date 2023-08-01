@@ -14,6 +14,7 @@ public class HDriveTest extends OpMode {
     private DcMotor left;
     private DcMotor right;
     private DcMotor center;
+    private DcMotor intake;
 
 
     public void goStop() {
@@ -28,7 +29,7 @@ public class HDriveTest extends OpMode {
         left = hardwareMap.get(DcMotor.class, "leftMotor");
         right = hardwareMap.get(DcMotor.class,"rightMotor");
         center = hardwareMap.get(DcMotor.class, "center");
-
+        intake = hardwareMap.get(DcMotor.class, "intake");
         right.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
@@ -39,6 +40,8 @@ public class HDriveTest extends OpMode {
     @Override
     public void loop() {
 
+
+        boolean intakeState = false;
 
         if (gamepad1.left_stick_y > 0.05){
             left.setPower(gamepad1.left_stick_y);
@@ -65,6 +68,24 @@ public class HDriveTest extends OpMode {
         } else if (gamepad1.right_trigger != 0 || gamepad1.left_trigger != -0) {
             center.setPower(0);
         }
+
+        if (gamepad1.left_bumper){
+            if (intakeState){
+                intake.setPower(0);
+                intakeState = false;
+            } else {
+                intake.setPower(-1);
+                intakeState = true;
+            }
+        } else if (gamepad1.right_bumper){
+            if (intake.getPower() == 0){
+                intake.setPower(1);
+            } else {
+                intake.setPower(0);
+                intakeState = false;
+            }
+        }
+        intake.setPower(1);
 
 
     }
