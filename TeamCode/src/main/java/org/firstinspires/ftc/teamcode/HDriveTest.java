@@ -70,12 +70,12 @@ public class HDriveTest extends OpMode {
         }
 
         if (gamepad1.left_bumper){
-            if (intakeState){
-                intake.setPower(0);
-                intakeState = false;
-            } else {
+            if (intake.getPower() == 0){
                 intake.setPower(-1);
                 intakeState = true;
+            } else {
+                intake.setPower(0);
+                intakeState = false;
             }
         } else if (gamepad1.right_bumper){
             if (intake.getPower() == 0){
@@ -85,7 +85,7 @@ public class HDriveTest extends OpMode {
                 intakeState = false;
             }
         }
-        intake.setPower(1);
+
 
 
     }
