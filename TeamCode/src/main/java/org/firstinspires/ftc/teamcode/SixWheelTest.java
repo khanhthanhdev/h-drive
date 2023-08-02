@@ -15,6 +15,11 @@ public class SixWheelTest extends OpMode {
     private DcMotor rightFront;
     private DcMotor leftBack;
     private DcMotor rightBack;
+    private Servo leftServo;
+    private Servo rightServo;
+
+    private double servoPosition;
+    private boolean oldServoPosition;
 
 
     public void goStop() {
@@ -32,7 +37,8 @@ public class SixWheelTest extends OpMode {
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
-
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
 
 
     }
@@ -44,6 +50,7 @@ public class SixWheelTest extends OpMode {
 
 
         boolean intakeState = false;
+        boolean servoButton = gamepad2.square;
 
         if (gamepad1.left_stick_y > 0.05){
             leftFront.setPower(gamepad1.left_stick_y);
@@ -86,6 +93,28 @@ public class SixWheelTest extends OpMode {
 //            }
 //        }
 
+
+        if (servoButton && !oldServoPosition) {
+            if (servoPosition == 0){
+                leftServo.setPosition(0);
+                rightServo.setPosition(1);
+                servoPosition= 1;
+            } else {
+                leftServo.setPosition(0.8);
+                rightServo.setPosition(0.8);
+                servoPosition = 0;
+            }
+        }
+
+        oldServoPosition = servoButton;
+
+
+        if (gamepad1.cross){
+            rightFront.setDirection(DcMotor.Direction.REVERSE);
+            rightBack.setDirection(DcMotor.Direction.REVERSE);
+            leftFront.setDirection(DcMotor.Direction.FORWARD);
+            rightBack.setDirection(DcMotor.Direction.FORWARD);
+        }
 
 
     }
