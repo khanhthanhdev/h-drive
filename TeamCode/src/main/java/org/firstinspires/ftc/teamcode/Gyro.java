@@ -24,6 +24,7 @@ public class Gyro extends LinearOpMode {
     public void runOpMode(){
         robot.init(hardwareMap);
 
+
         waitForStart();
 
         turn(90);
@@ -81,7 +82,7 @@ public class Gyro extends LinearOpMode {
             error += 360;
 
         }
-        turn(error);;
+        turn(error);
     }
 
     public double getAbsoluteAngle(){

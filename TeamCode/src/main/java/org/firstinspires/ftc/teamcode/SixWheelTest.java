@@ -62,6 +62,7 @@ public class SixWheelTest extends OpMode {
 
 
         boolean intakeState = false;
+        boolean reverseState = false;
         boolean servoButton = gamepad2.square;
 
         if (gamepad1.left_stick_y > 0.05){
@@ -126,6 +127,20 @@ public class SixWheelTest extends OpMode {
             rightBack.setDirection(DcMotor.Direction.REVERSE);
             leftFront.setDirection(DcMotor.Direction.FORWARD);
             leftBack.setDirection(DcMotor.Direction.FORWARD);
+        }
+
+        if (gamepad1.touchpad && reverseState){
+            rightFront.setDirection(DcMotor.Direction.REVERSE);
+            rightBack.setDirection(DcMotor.Direction.REVERSE);
+            leftFront.setDirection(DcMotor.Direction.FORWARD);
+            leftBack.setDirection(DcMotor.Direction.FORWARD);
+
+            reverseState = !reverseState;
+        } else if (gamepad1.touchpad && reverseState == !reverseState){
+            rightFront.setDirection(DcMotor.Direction.FORWARD);
+            rightBack.setDirection(DcMotor.Direction.FORWARD);
+            leftFront.setDirection(DcMotor.Direction.REVERSE);
+            leftBack.setDirection(DcMotor.Direction.REVERSE);
         }
 
 

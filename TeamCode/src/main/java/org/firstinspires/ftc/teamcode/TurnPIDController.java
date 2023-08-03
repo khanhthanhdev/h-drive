@@ -28,6 +28,8 @@ public class TurnPIDController {
 
         if (error > 180){
             error -= 360;
+        } else if (error < -180) {
+            error += 360;
         }
         // I
         acculumateError += error;
