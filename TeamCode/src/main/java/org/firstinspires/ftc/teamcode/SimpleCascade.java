@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp (name="Simple PID")
-public class SimpleShooter extends LinearOpMode {
+@TeleOp (name="Simple Cascade")
+public class SimpleCascade extends LinearOpMode {
 
     DcMotorEx shooter;
     double integralSum = 0;
@@ -26,14 +26,15 @@ public class SimpleShooter extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        shooter = hardwareMap.get(DcMotorEx.class, "leftMotor");
+        shooter = hardwareMap.get(DcMotorEx.class, "cascade");
+
 
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         waitForStart();
         while (opModeIsActive()) {
-            double shooterPower = PIDControl(600, shooter.getCurrentPosition());
+            double shooterPower = PIDControl(1000, shooter.getCurrentPosition());
             shooter.setPower(shooterPower);
         }
     }
@@ -53,4 +54,3 @@ public class SimpleShooter extends LinearOpMode {
     }
 
 }
-

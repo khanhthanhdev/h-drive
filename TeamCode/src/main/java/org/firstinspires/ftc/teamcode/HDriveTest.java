@@ -28,7 +28,7 @@ public class HDriveTest extends OpMode {
     public void init(){
         left = hardwareMap.get(DcMotor.class, "leftMotor");
         right = hardwareMap.get(DcMotor.class,"rightMotor");
-        center = hardwareMap.get(DcMotor.class, "center");
+        center = hardwareMap.get(DcMotor.class, "cascade");
         intake = hardwareMap.get(DcMotor.class, "intake");
         right.setDirection(DcMotorSimple.Direction.REVERSE);
 
