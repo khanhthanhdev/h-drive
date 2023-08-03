@@ -32,12 +32,12 @@ public class Gyro extends LinearOpMode {
     }
 
     public void resetAngle(){
-        lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYZ, AngleUnit.DEGREES);
+        lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         currentAngle = 0;
 
     }
     public double getAngle(){
-        Orientation  orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYZ, AngleUnit.DEGREES);
+        Orientation  orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         double deltaAngle = orientation.firstAngle - lastAngles.firstAngle;
 
@@ -71,7 +71,7 @@ public class Gyro extends LinearOpMode {
     }
 
     public void turnTo(double degrees){
-        Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYZ, AngleUnit.DEGREES);
+        Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         double error = degrees - orientation.firstAngle;
 
@@ -82,5 +82,26 @@ public class Gyro extends LinearOpMode {
 
         }
         turn(error);;
+    }
+
+    public double getAbsoluteAngle(){
+        return robot.imu.getAngularOrientation(
+                AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES
+        ).firstAngle;
+    }
+
+    void turnToPID(double targetAngle){
+
+        TurnPIDController pid = new TurnPIDController(targetAngle, 0.01,0,0.003);
+
+        while (opModeIsActive() && Math.abs(targetAngle - getAbsoluteAngle()) > 1){
+            double motorPower = pid.update(getAbsoluteAngle());
+            robot.setMotorPower(-motorPower, -motorPower, motorPower, motorPower);
+        }
+        robot.setAllPower(0);
+    }
+
+    void turnPID(double degrees){
+        turnToPID(degrees + getAbsoluteAngle());
     }
 }
