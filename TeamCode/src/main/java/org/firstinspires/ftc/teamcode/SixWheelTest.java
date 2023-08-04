@@ -89,24 +89,6 @@ public class SixWheelTest extends OpMode {
 
 
 
-//        if (gamepad1.left_bumper){
-//            if (intake.getPower() == 0){
-//                intake.setPower(-1);
-//                intakeState = true;
-//            } else {
-//                intake.setPower(0);
-//                intakeState = false;
-//            }
-//        } else if (gamepad1.right_bumper){
-//            if (intake.getPower() == 0){
-//                intake.setPower(1);
-//            } else {
-//                intake.setPower(0);
-//                intakeState = false;
-//            }
-//        }
-
-
         if (servoButton && !oldServoPosition) {
             if (servoPosition == 0){
                 leftServo.setPosition(0);
@@ -120,28 +102,6 @@ public class SixWheelTest extends OpMode {
         }
 
         oldServoPosition = servoButton;
-
-
-        if (gamepad1.touchpad){
-            rightFront.setDirection(DcMotor.Direction.REVERSE);
-            rightBack.setDirection(DcMotor.Direction.REVERSE);
-            leftFront.setDirection(DcMotor.Direction.FORWARD);
-            leftBack.setDirection(DcMotor.Direction.FORWARD);
-        }
-
-        if (gamepad1.touchpad && reverseState){
-            rightFront.setDirection(DcMotor.Direction.REVERSE);
-            rightBack.setDirection(DcMotor.Direction.REVERSE);
-            leftFront.setDirection(DcMotor.Direction.FORWARD);
-            leftBack.setDirection(DcMotor.Direction.FORWARD);
-
-            reverseState = !reverseState;
-        } else if (gamepad1.touchpad && reverseState == !reverseState){
-            rightFront.setDirection(DcMotor.Direction.FORWARD);
-            rightBack.setDirection(DcMotor.Direction.FORWARD);
-            leftFront.setDirection(DcMotor.Direction.REVERSE);
-            leftBack.setDirection(DcMotor.Direction.REVERSE);
-        }
 
 
 

@@ -35,7 +35,7 @@ public class SimpleCascade extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             double shooterPower = PIDControl(1000, shooter.getCurrentPosition());
-            shooter.setPower(shooterPower);
+            shooter.setPower(-shooterPower);
         }
     }
     public double PIDControl(double reference, double state){
